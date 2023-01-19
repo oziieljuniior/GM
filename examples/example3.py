@@ -15,6 +15,7 @@ ax.plot()
 
 # Function that creates a point when a mouse click is detected
 def onclick(event):
+    print('click', event)
     plt.scatter(event.xdata, event.ydata, color = 'red', s = 20)
     plt.show()
 
