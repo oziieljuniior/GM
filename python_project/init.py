@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
 from classep import Canva
 
-Canva()
+Canva(0.15)
 
