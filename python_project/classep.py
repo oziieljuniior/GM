@@ -1,3 +1,4 @@
+from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -26,8 +27,8 @@ class cpoligonos:
     def __init__(self, pontos):
         self.pontos = pontos
     
-    geral = []
-            
+    geral = []   
+    
     def cpoligono(self, t):
         control_points = np.array(self.pontos)
         #print(t)
@@ -50,8 +51,8 @@ class cpoligonos:
                 plt.scatter(name[:,0], name[:,1])
                 plt.plot(name[:,0], name[:,1])
                 n += 1
-            plt.scatter(control_points[:,0], control_points[:,1])
-
+        plt.scatter(control_points[:,0], control_points[:,1])
+        
    
 class bezier:
     def __init__(self, pontos = None):
@@ -92,43 +93,84 @@ class bezier:
 
         
 class Canva:
-    def __init__(self, t):
+    def __init__(self, t = 0.15):
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
         self.ax.set_xlim([-10,10])
         self.ax.set_ylim([-10,10])
         self.ax.plot()
-        self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+        self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.create)
+        self.cidpress2 = self.fig.canvas.mpl_connect("button_release_event", self.on_release)
+        self.cidpress3 = self.fig.canvas.mpl_connect("motion_notify_event", self.on_move)
         self.t = t
-        plt.show()    
+        plt.show()
+            
          
     points = []
     lines = []
+    selected_point = None
+        
+    def create(self, event):
+        print(event.button)
+        trap = str(event.button)
+        if trap == 'MouseButton.RIGHT':
+            print(event.button)
+            print('click x', event.xdata)
+            print('click y', event.ydata)
+            point = Point(event.xdata, event.ydata)
+            self.points.append(point)
+            if len(self.points) > 1:
+                line = Line(self.points[-2], self.points[-1])
+                self.lines.append(line)
+            for line in self.lines:
+                plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+            plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'blue', s = 25)
+            plt.show()
+            print([point.x for point in self.points], [point.y for point in self.points])
+            if len(self.points) > 2:
+                print("Criar curva")
+                only = pontos_array(self.points).curvab()
+                if (len(only)) >= 3:
+                    print(len(only))
+                    bezier(only).curve().remove()
+                    plt.cla()
+                    self.ax.set_xlim([-10,10])
+                    self.ax.set_ylim([-10,10])
+                cpoligonos(only).cpoligono(self.t)
+                bezier(only).curve()
+        elif trap == 'MouseButton.LEFT':
+            print("Hello")
+            for point in self.points:
+                if abs(event.xdata-point.x)<0.1 and abs(event.ydata-point.y)<0.1:
+                    self.selected_point = point
+                    break
     
-    def onclick(self, event):
-        print('click x', event.xdata)
-        print('click y', event.ydata)
-        point = Point(event.xdata, event.ydata)
-        self.points.append(point)
-        if len(self.points) > 1:
-            line = Line(self.points[-2], self.points[-1])
-            self.lines.append(line)
-        for line in self.lines:
-            plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
-        plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'blue', s = 25)
-        plt.show()
-        print([point.x for point in self.points], [point.y for point in self.points])
-        if len(self.points) > 2:
-            print("Criar curva")
-            only = pontos_array(self.points).curvab()
-            if (len(only)) > 3:
-                print(len(only))
-                bezier(only).curve().remove()
-                plt.cla()
+    def on_release(self, event):
+        self.selected_point = None
+    
+    def on_move(self, event):
+        if self.selected_point:
+            self.selected_point.x = event.xdata
+            self.selected_point.y = event.ydata
+            plt.cla()
+            for line in self.lines:
                 self.ax.set_xlim([-10,10])
                 self.ax.set_ylim([-10,10])
-            cpoligonos(only).cpoligono(self.t)
-            bezier(only).curve()
-            
+                plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+            plt.scatter([point.x for point in self.points], [point.y for point in self.points])
+            plt.show()
+            if len(self.points) > 2:
+                print("Criar curva")
+                only = pontos_array(self.points).curvab()
+                if (len(only)) >= 3:
+                    print(len(only))
+                    bezier(only).curve().remove()
+                    plt.cla()
+                    self.ax.set_xlim([-10,10])
+                    self.ax.set_ylim([-10,10])
+                cpoligonos(only).cpoligono(self.t)
+                bezier(only).curve()
+
+                
             
     
