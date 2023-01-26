@@ -51,17 +51,20 @@ class cpoligonos:
                 plt.plot(name[:,0], name[:,1])
                 n += 1
             plt.scatter(control_points[:,0], control_points[:,1])
-    
+
+   
 class bezier:
-    def __init__(self, pontos):
+    def __init__(self, pontos = None):
         self.pontos = pontos
+    final = []
     
+            
     def curve(self):
         control_points = np.array(self.pontos)
         controle = np.array(self.pontos)
         tam = len(control_points)
         t1 = np.linspace(0,1, 100)
-        final = []
+        self.final.clear()
         for t in t1:
             control_points = controle
             n = 1
@@ -75,17 +78,18 @@ class bezier:
                         lista.append(simple_array)
                     control_points = np.array(lista)
                     n += 1
-            final.append(control_points)
+            self.final.append(control_points)
         final1 = []
-        for j in range(0, len(final)):
-            for k in range(0, len(final[j])):
-                final1.append(final[j][k])
-        final = np.array(final1)
-        plt.plot(final[:,0], final[:,1])
-        
-        
+        for j in range(0, len(self.final)):
+            for k in range(0, len(self.final[j])):
+                final1.append(self.final[j][k])
+        self.final = np.array(final1)
+        line, = plt.plot(self.final[:,0], self.final[:,1]) 
+        return line
         
     
+            
+
         
 class Canva:
     def __init__(self, t):
@@ -94,14 +98,13 @@ class Canva:
         self.ax.set_xlim([-10,10])
         self.ax.set_ylim([-10,10])
         self.ax.plot()
-        self.cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+        self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
         self.t = t
-        plt.show()
-        
+        plt.show()    
+         
     points = []
     lines = []
     
-                    
     def onclick(self, event):
         print('click x', event.xdata)
         print('click y', event.ydata)
@@ -118,7 +121,14 @@ class Canva:
         if len(self.points) > 2:
             print("Criar curva")
             only = pontos_array(self.points).curvab()
-            only2 = cpoligonos(only).cpoligono(self.t)
-            only3 = bezier(only).curve()
-        
+            if (len(only)) > 3:
+                print(len(only))
+                bezier(only).curve().remove()
+                plt.cla()
+                self.ax.set_xlim([-10,10])
+                self.ax.set_ylim([-10,10])
+            cpoligonos(only).cpoligono(self.t)
+            bezier(only).curve()
+            
+            
     
