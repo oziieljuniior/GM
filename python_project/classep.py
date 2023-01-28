@@ -94,21 +94,39 @@ class bezier:
         
 class Canva:
     def __init__(self, t = 0.15):
+        self.t = t
+        
         self.fig = plt.figure()
+        self.ax_slider = plt.axes([0.15, 0.02, 0.65, 0.03])
+        self.slider = Slider(self.ax_slider, 't', 0.01, 1, valinit = self.t)
         self.ax = self.fig.add_subplot(111)
         self.ax.set_xlim([-10,10])
         self.ax.set_ylim([-10,10])
         self.ax.plot()
+        
         self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.create)
         self.cidpress2 = self.fig.canvas.mpl_connect("button_release_event", self.on_release)
         self.cidpress3 = self.fig.canvas.mpl_connect("motion_notify_event", self.on_move)
-        self.t = t
+        self.slider.on_changed(self.update)
         plt.show()
             
          
     points = []
     lines = []
     selected_point = None
+    def update(self, val):
+        print("Valor atualizado")
+        only = pontos_array(self.points).curvab()
+        print(len(only))
+        if len(only) > 2:
+            plt.cla()
+            self.ax.set_xlim([-10,10])
+            self.ax.set_ylim([-10,10])
+            cpoligonos(only).cpoligono(val)
+            bezier(only).curve()
+        self.t = val
+            
+        
         
     def create(self, event):
         print(event.button)
