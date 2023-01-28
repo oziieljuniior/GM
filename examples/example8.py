@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+fig = plt.figure()
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -27,3 +27,5 @@ def on_click(event):
 
 plt.connect("button_press_event", on_click)
 plt.show()
+
+
