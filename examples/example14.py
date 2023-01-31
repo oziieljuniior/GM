@@ -16,10 +16,11 @@ while tam > n:
         name = control_points
         print(n)
         print(name)
-        list = []
-        for i in range(0, len(name) - 1):
-            simple_array = name[i] +(t*(name[i+1]-name[i]))
-            list.append(simple_array)
+        list = (1 - t)*name[:-1,:] + t*name[1:,:]
+        #list = []
+        #for i in range(0, len(name) - 1):
+        #    simple_array = name[i] +(t*(name[i+1]-name[i]))
+        #    list.append(simple_array)
         control_points = np.array(list)
         print("new")
         print(control_points)

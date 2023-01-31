@@ -2,15 +2,18 @@ from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Classe de pontos criada para salvar os pontos da janelas ao clicar
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+#Classe salva os pontos onde o segmento deve ser criado, de maneira ordenada
 class Line:
     def __init__(self, point1, point2):
         self.point1 = point1
         self.point2 = point2        
-   
+
+#Clase organiza os pontos criados
 class pontos_array:
     def __init__(self, points):
         self.points = points
@@ -23,6 +26,7 @@ class pontos_array:
             self.ponto_array.append([point.x, point.y])
         return self.ponto_array
 
+#Classe cria uma curva de polígonos a partir de um segmento de pontos dados. 
 class cpoligonos:
     def __init__(self, pontos):
         self.pontos = pontos
@@ -36,29 +40,24 @@ class cpoligonos:
         #print(control_points)
         n = 1
         while tam > n:
-            if tam > n:
-                name = "control_points" + str(n)
-                name = control_points
-                print(name)
-                lista = []
-                for i in range(0, len(name) - 1):
-                    print(name[i], name[i + 1])
-                    simple_array = name[i] + (t*(name[i + 1] - name[i]))
-                    lista.append(simple_array)
-                control_points = np.array(lista)
-                print("new")
-                print(control_points)
-                plt.scatter(name[:,0], name[:,1])
-                plt.plot(name[:,0], name[:,1])
-                n += 1
+            name = "control_points" + str(n)
+            name = control_points
+            #print(name)
+            lista = []
+            lista = (1 - t)*name[:-1,:] + t*name[1:,:]
+            control_points = np.array(lista)
+            #print("new")
+            #print(control_points)
+            plt.scatter(name[:,0], name[:,1])
+            plt.plot(name[:,0], name[:,1])
+            n += 1    
         plt.scatter(control_points[:,0], control_points[:,1])
         
-   
+#Classe cria a curva de bézier
 class bezier:
     def __init__(self, pontos = None):
         self.pontos = pontos
     final = []
-    
             
     def curve(self):
         control_points = np.array(self.pontos)
@@ -70,15 +69,12 @@ class bezier:
             control_points = controle
             n = 1
             while tam > n:
-                if tam > n:
-                    name = "control_points"+str(n)
-                    name = control_points
-                    lista = []
-                    for i in range(0, len(name) - 1):
-                        simple_array = name[i] + (t*(name[i + 1] - name[i]))
-                        lista.append(simple_array)
-                    control_points = np.array(lista)
-                    n += 1
+                name = "control_points"+str(n)
+                name = control_points
+                lista = []
+                lista = (1 - t)*name[:-1,:] + t*name[1:,:]
+                control_points = np.array(lista)
+                n += 1
             self.final.append(control_points)
         final1 = []
         for j in range(0, len(self.final)):
@@ -87,11 +83,8 @@ class bezier:
         self.final = np.array(final1)
         line, = plt.plot(self.final[:,0], self.final[:,1]) 
         return line
-        
-    
-            
 
-        
+#Classe geral, cria a janela para criação e trabalho com a curva de bézier.  
 class Canva:
     def __init__(self, t = 0.15):
         self.t = t
@@ -115,9 +108,9 @@ class Canva:
     lines = []
     selected_point = None
     def update(self, val):
-        print("Valor atualizado")
+        #print("Valor atualizado")
         only = pontos_array(self.points).curvab()
-        print(len(only))
+        #print(len(only))
         if len(only) > 2:
             plt.cla()
             self.ax.set_xlim([-10,10])
@@ -125,16 +118,15 @@ class Canva:
             cpoligonos(only).cpoligono(val)
             bezier(only).curve()
         self.t = val
-            
         
         
     def create(self, event):
-        print(event.button)
+        #print(event.button)
         trap = str(event.button)
         if trap == 'MouseButton.RIGHT':
-            print(event.button)
-            print('click x', event.xdata)
-            print('click y', event.ydata)
+            #print(event.button)
+            #print('click x', event.xdata)
+            #print('click y', event.ydata)
             point = Point(event.xdata, event.ydata)
             self.points.append(point)
             if len(self.points) > 1:
@@ -144,12 +136,12 @@ class Canva:
                 plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
             plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'blue', s = 25)
             plt.show()
-            print([point.x for point in self.points], [point.y for point in self.points])
+            #print([point.x for point in self.points], [point.y for point in self.points])
             if len(self.points) > 2:
-                print("Criar curva")
+                #print("Criar curva")
                 only = pontos_array(self.points).curvab()
                 if (len(only)) >= 3:
-                    print(len(only))
+                    #print(len(only))
                     bezier(only).curve().remove()
                     plt.cla()
                     self.ax.set_xlim([-10,10])
@@ -157,7 +149,7 @@ class Canva:
                 cpoligonos(only).cpoligono(self.t)
                 bezier(only).curve()
         elif trap == 'MouseButton.LEFT':
-            print("Hello")
+            #print("Hello")
             for point in self.points:
                 if abs(event.xdata-point.x)<0.1 and abs(event.ydata-point.y)<0.1:
                     self.selected_point = point
@@ -170,6 +162,7 @@ class Canva:
         if self.selected_point:
             self.selected_point.x = event.xdata
             self.selected_point.y = event.ydata
+            #print("point target")
             plt.cla()
             for line in self.lines:
                 self.ax.set_xlim([-10,10])
@@ -178,17 +171,13 @@ class Canva:
             plt.scatter([point.x for point in self.points], [point.y for point in self.points])
             plt.show()
             if len(self.points) > 2:
-                print("Criar curva")
+                #print("Criar curva")
                 only = pontos_array(self.points).curvab()
                 if (len(only)) >= 3:
-                    print(len(only))
+                    #print(len(only))
                     bezier(only).curve().remove()
                     plt.cla()
                     self.ax.set_xlim([-10,10])
                     self.ax.set_ylim([-10,10])
                 cpoligonos(only).cpoligono(self.t)
                 bezier(only).curve()
-
-                
-            
-    
