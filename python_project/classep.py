@@ -194,10 +194,29 @@ class Canva:
             plt.show()
         
         elif event.key == 'm':
-            print('Deletar todos os pontos e linhas da curva')
+            print('Deletar último ponto')
+            plt.cla()
             self.points.pop()
             self.lines.pop()
-            plt.cla()
             self.ax.set_xlim([-10,10])
             self.ax.set_ylim([-10,10])
             plt.show()
+            if len(self.points) > 1:
+                line = Line(self.points[-2], self.points[-1])
+                self.lines.append(line)
+            for line in self.lines:
+                plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+            plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'blue', s = 25)
+            plt.show()
+            #print([point.x for point in self.points], [point.y for point in self.points])
+            if len(self.points) > 2:
+                #print("Criar curva")
+                only = pontos_array(self.points).curvab()
+                if (len(only)) >= 3:
+                    #print(len(only))
+                    bezier(only).curve().remove()
+                    plt.cla()
+                    self.ax.set_xlim([-10,10])
+                    self.ax.set_ylim([-10,10])
+                cpoligonos(only).cpoligono(self.t)
+                bezier(only).curve()
