@@ -100,10 +100,10 @@ class Canva:
         self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.create)
         self.cidpress2 = self.fig.canvas.mpl_connect("button_release_event", self.on_release)
         self.cidpress3 = self.fig.canvas.mpl_connect("motion_notify_event", self.on_move)
-        self.cidpress4 = self.fig.canvas.mpl_connect('key_press_event', self.menu)
         self.slider.on_changed(self.update)
         plt.show()
-                    
+            
+         
     points = []
     lines = []
     selected_point = None
@@ -117,7 +117,6 @@ class Canva:
             self.ax.set_ylim([-10,10])
             cpoligonos(only).cpoligono(val)
             bezier(only).curve()
-            
         self.t = val
         
         
@@ -182,22 +181,3 @@ class Canva:
                     self.ax.set_ylim([-10,10])
                 cpoligonos(only).cpoligono(self.t)
                 bezier(only).curve()
-    
-    def menu(self, event):
-        if event.key == 'd':
-            print('Deletar todos os pontos e linhas da curva')
-            plt.cla()
-            self.ax.set_xlim([-10,10])
-            self.ax.set_ylim([-10,10])
-            self.points.clear()
-            self.lines.clear()
-            plt.show()
-        
-        elif event.key == 'm':
-            print('Deletar todos os pontos e linhas da curva')
-            self.points.pop()
-            self.lines.pop()
-            plt.cla()
-            self.ax.set_xlim([-10,10])
-            self.ax.set_ylim([-10,10])
-            plt.show()
