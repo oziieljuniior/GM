@@ -13,22 +13,22 @@ Este projeto é uma implementação em Python para a criação e manipulação d
 # Classes e Métodos
 Aqui está uma análise das classes e métodos presentes no código:
 
-** Classe Point: Usada para armazenar as coordenadas x e y dos pontos de controle.
-** Classe Line: Armazena dois pontos para representar um segmento de linha.
-** Classe pontos_array: Organiza os pontos de controle e retorna uma lista de coordenadas.
-** Classe cpoligonos: Desenha uma curva de polígonos com base nos pontos de controle.
-** Classe bezier: Cria a curva de Bézier usando um conjunto de pontos de controle.
-** Classe Canva: Responsável pela criação da interface gráfica e manipulação dos eventos.
+- Classe Point: Usada para armazenar as coordenadas x e y dos pontos de controle.
+- Classe Line: Armazena dois pontos para representar um segmento de linha.
+- Classe pontos_array: Organiza os pontos de controle e retorna uma lista de coordenadas.
+- Classe cpoligonos: Desenha uma curva de polígonos com base nos pontos de controle.
+- Classe bezier: Cria a curva de Bézier usando um conjunto de pontos de controle.
+- Classe Canva: Responsável pela criação da interface gráfica e manipulação dos eventos.
 
 #Como Usar
-Clone este repositório ou baixe o arquivo .py.
-Instale as dependências necessárias usando pip install matplotlib numpy.
-Execute o arquivo init.py em seu ambiente Python.
-Utilize o botão direito do mouse para criar pontos de controle.
-Utilize o botão esquerdo do mouse para mover os pontos de controle.
-Use as teclas 'd' para apagar todos os pontos de controle e 'm' para apagar o último ponto adicionado.
+- Clone este repositório ou baixe o arquivo .py.
+- Instale as dependências necessárias usando pip install matplotlib numpy.
+- Execute o arquivo init.py em seu ambiente Python.
+- Utilize o botão direito do mouse para criar pontos de controle.
+- Utilize o botão esquerdo do mouse para mover os pontos de controle.
+- Use as teclas 'd' para apagar todos os pontos de controle e 'm' para apagar o último ponto adicionado.
 
 # Dependências
-Python 3
-Matplotlib
-NumPy
+- Python 3
+- Matplotlib
+- NumPy
