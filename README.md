@@ -20,7 +20,7 @@ Aqui está uma análise das classes e métodos presentes no código:
 - Classe bezier: Cria a curva de Bézier usando um conjunto de pontos de controle.
 - Classe Canva: Responsável pela criação da interface gráfica e manipulação dos eventos.
 
-#Como Usar
+# Como Usar
 - Clone este repositório ou baixe o arquivo .py.
 - Instale as dependências necessárias usando pip install matplotlib numpy.
 - Execute o arquivo init.py em seu ambiente Python.
