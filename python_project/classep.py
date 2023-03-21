@@ -2,10 +2,6 @@ from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 import numpy as np
 
-from matplotlib.widgets import Slider
-import matplotlib.pyplot as plt
-import numpy as np
-
 #Classe de pontos criada para salvar os pontos da janelas ao clicar
 class Point:
     def __init__(self, x, y):
