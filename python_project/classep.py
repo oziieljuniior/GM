@@ -2,6 +2,10 @@ from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 import numpy as np
 
+from matplotlib.widgets import Slider
+import matplotlib.pyplot as plt
+import numpy as np
+
 #Classe de pontos criada para salvar os pontos da janelas ao clicar
 class Point:
     def __init__(self, x, y):
@@ -103,7 +107,8 @@ class Canva:
         self.cidpress4 = self.fig.canvas.mpl_connect('key_press_event', self.menu)
         self.slider.on_changed(self.update)
         plt.show()
-                    
+            
+         
     points = []
     lines = []
     selected_point = None
@@ -117,7 +122,6 @@ class Canva:
             self.ax.set_ylim([-10,10])
             cpoligonos(only).cpoligono(val)
             bezier(only).curve()
-            
         self.t = val
         
         
@@ -196,12 +200,23 @@ class Canva:
         elif event.key == 'm':
             print('Deletar último ponto')
             plt.cla()
+            if len(self.points) <= 1:
+                self.ax.set_xlim([-10,10])
+                self.ax.set_ylim([-10,10])
+                self.points.clear()
+                plt.show()
+                print("Sem pontos para remover")
+                return
             self.points.pop()
             self.lines.pop()
             self.ax.set_xlim([-10,10])
             self.ax.set_ylim([-10,10])
             plt.show()
-            if len(self.points) > 1:
+            
+            if len(self.points) == 1:
+                self.lines.clear()
+            elif len(self.points) >= 2:
+                self.lines.pop()
                 line = Line(self.points[-2], self.points[-1])
                 self.lines.append(line)
             for line in self.lines:
@@ -220,3 +235,4 @@ class Canva:
                     self.ax.set_ylim([-10,10])
                 cpoligonos(only).cpoligono(self.t)
                 bezier(only).curve()
+            
