@@ -14,7 +14,7 @@ class Line:
         self.point2 = point2        
 
 #Clase organiza os pontos criados
-class pontos_array:
+class PontosArray:
     def __init__(self, points):
         self.points = points
     
@@ -27,7 +27,7 @@ class pontos_array:
         return self.ponto_array
 
 #Classe cria uma curva de polígonos a partir de um segmento de pontos dados. 
-class cpoligonos:
+class CPoligonos:
     def __init__(self, pontos):
         self.pontos = pontos
     
@@ -54,7 +54,7 @@ class cpoligonos:
         plt.scatter(control_points[:,0], control_points[:,1])
         
 #Classe cria a curva de bézier
-class bezier:
+class Bezier:
     def __init__(self, pontos = None):
         self.pontos = pontos
     final = []
@@ -84,6 +84,15 @@ class bezier:
         line, = plt.plot(self.final[:,0], self.final[:,1]) 
         return line
 
+class CanvaBernstein:
+    def __init__(self):
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
+        self.ax.set_xlim([-10,10])
+        self.ax.set_ylim([-10,10])
+        self.ax.plot()
+        
+
 #Classe geral, cria a janela para criação e trabalho com a curva de bézier.  
 class Canva:
     def __init__(self, t = 0.15):
@@ -110,14 +119,14 @@ class Canva:
     selected_point = None
     def update(self, val):
         #print("Valor atualizado")
-        only = pontos_array(self.points).curvab()
+        only = PontosArray(self.points).curvab()
         #print(len(only))
         if len(only) > 2:
             plt.cla()
             self.ax.set_xlim([-10,10])
             self.ax.set_ylim([-10,10])
-            cpoligonos(only).cpoligono(val)
-            bezier(only).curve()
+            CPoligonos(only).cpoligono(val)
+            Bezier(only).curve()
         self.t = val
         
         
@@ -140,15 +149,15 @@ class Canva:
             #print([point.x for point in self.points], [point.y for point in self.points])
             if len(self.points) > 2:
                 #print("Criar curva")
-                only = pontos_array(self.points).curvab()
+                only = PontosArray(self.points).curvab()
                 if (len(only)) >= 3:
                     #print(len(only))
-                    bezier(only).curve().remove()
+                    Bezier(only).curve().remove()
                     plt.cla()
                     self.ax.set_xlim([-10,10])
                     self.ax.set_ylim([-10,10])
-                cpoligonos(only).cpoligono(self.t)
-                bezier(only).curve()
+                CPoligonos(only).cpoligono(self.t)
+                Bezier(only).curve()
         elif trap == 'MouseButton.LEFT':
             #print("Hello")
             for point in self.points:
@@ -173,15 +182,15 @@ class Canva:
             plt.show()
             if len(self.points) > 2:
                 #print("Criar curva")
-                only = pontos_array(self.points).curvab()
+                only = PontosArray(self.points).curvab()
                 if (len(only)) >= 3:
                     #print(len(only))
-                    bezier(only).curve().remove()
+                    Bezier(only).curve().remove()
                     plt.cla()
                     self.ax.set_xlim([-10,10])
                     self.ax.set_ylim([-10,10])
-                cpoligonos(only).cpoligono(self.t)
-                bezier(only).curve()
+                CPoligonos(only).cpoligono(self.t)
+                Bezier(only).curve()
     
     def menu(self, event):
         if event.key == 'd':
@@ -222,13 +231,20 @@ class Canva:
             #print([point.x for point in self.points], [point.y for point in self.points])
             if len(self.points) > 2:
                 #print("Criar curva")
-                only = pontos_array(self.points).curvab()
+                only = PontosArray(self.points).curvab()
                 if (len(only)) >= 3:
                     #print(len(only))
-                    bezier(only).curve().remove()
+                    Bezier(only).curve().remove()
                     plt.cla()
                     self.ax.set_xlim([-10,10])
                     self.ax.set_ylim([-10,10])
-                cpoligonos(only).cpoligono(self.t)
-                bezier(only).curve()
+                CPoligonos(only).cpoligono(self.t)
+                Bezier(only).curve()
+        
+        elif event.key == 'n':
+            print(event.key)
+            self.openbernstein()
+    
+    def openbernstein(self):
+        new_canva = CanvaBernstein()
             
