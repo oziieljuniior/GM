@@ -1,29 +1,26 @@
-import tkinter as tk 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.figure import Figure
+import numpy as np
+import matplotlib.pyplot as plt
 
-root = tk.Tk()
-root.title('Exemplo de menu do Matplotlib')
+def coef_binomial(n, k):
+    return np.math.factorial(n) // (np.math.factorial(k) * np.math.factorial(n - k))
 
-fig = Figure(figsize=(5,4), dpi = 100)
-ax = fig.add_subplot(111)
-ax.plot([1,2,3],[2,4,3])
+def polinomio_bernstein(n, i, t):
+    return coef_binomial(n, i) * t**i * (1 - t)**(n - i)
 
-canvas = FigureCanvasTkAgg(fig, master = root)
-canvas.draw()
-canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+def plot_bernstein(n):
+    t = np.linspace(0, 1, 100)
+    plt.figure(figsize=(10, 6))
 
-toolbar = NavigationToolbar2Tk(canvas, root)
-toolbar.update()
-toolbar.pack()
+    for i in range(n+1):
+        B = polinomio_bernstein(n, i, t)
+        plt.plot(t, B, label=f'B_{i},{n}(t)')
 
-def on_button_click():
-    print('Botão do menu clicado!')
+    plt.title(f'Polinômios de Bernstein de Grau {n}')
+    plt.xlabel('t')
+    plt.ylabel('B_i,n(t)')
+    plt.legend()
+    plt.grid()
+    plt.show()
 
-for item in toolbar.winfo_children():
-    if isinstance(item, tk.Menu):
-        if item.index('end') == 1 and item.entrycget(0, 'label') == 'Pan':
-            pan_menu = item
-            pan_menu.add_command(label='Clique Aqui', command=on_button_click)
-
-tk.mainloop()
+n = 5  # Grau do polinômio de Bernstein
+plot_bernstein(n)

@@ -2,6 +2,7 @@ from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 #Classe de pontos criada para salvar os pontos da janelas ao clicar
 class Point:
     def __init__(self, x, y):
@@ -85,13 +86,62 @@ class Bezier:
         return line
 
 class CanvaBernstein:
-    def __init__(self):
-        self.fig = plt.figure()
-        self.ax = self.fig.add_subplot(111)
-        self.ax.set_xlim([-10,10])
-        self.ax.set_ylim([-10,10])
-        self.ax.plot()
+    def __init__(self, n=None, control_points=None):
+        self.n = n
+        self.control_points = control_points
+        self.bernstein_fig = plt.figure()
+        self.bernstein_ax = self.bernstein_fig.add_subplot(111)
+        self.bernstein_ax.set_xlim([0, 1])
+        self.bernstein_ax.set_ylim([-10, 10])
+        self.bernstein_ax.set_title("Polinômios de Bernstein")
+        self.bernstein_fig.show()
+    
+    
         
+    def coef_binomial(self, n, k):
+        return np.math.factorial(n) // (np.math.factorial(k) * np.math.factorial(n - k))
+
+    def polinomio_bernstein(self, n, i, t):
+        return self.coef_binomial(n, i) * t ** i * (1 - t) ** (n - i)
+        
+    def plot_bernstein(self):
+        self.bernstein_fig = plt.figure()
+        self.bernstein_ax = self.bernstein_fig.add_subplot(111)
+        self.bernstein_ax.set_xlim([0, 1])
+        self.bernstein_ax.set_ylim([0, 1])
+
+        t = np.linspace(0, 1, 100)
+
+        for i in range(self.n + 1):
+            B = self.polinomio_bernstein(self.n, i, t)
+            self.bernstein_ax.plot(t, B, label=f'B_{i},{self.n}(t)')
+
+        self.bernstein_ax.set_title(f'Polinômios de Bernstein de Grau {self.n}')
+        self.bernstein_ax.set_xlabel('t')
+        self.bernstein_ax.set_ylabel('B_i,n(t)')
+        self.bernstein_ax.legend()
+        self.bernstein_ax.grid()
+        plt.show()
+    
+    def update_bernstein(self, control_points):
+        self.control_points = control_points
+        if self.bernstein_fig is not None and self.bernstein_ax is not None:
+            self.bernstein_ax.clear()
+            self.bernstein_ax.set_xlim([0, 1])
+            self.bernstein_ax.set_ylim([-10, 10])
+
+            t = np.linspace(0, 1, 100)
+
+            for i in range(self.n + 1):
+                B = self.polinomio_bernstein(self.n, i, t) * self.control_points[i][1]
+                self.bernstein_ax.plot(t, B, label=f'B_{i},{self.n}(t)')
+
+            self.bernstein_ax.set_title(f'Polinômios de Bernstein de Grau {self.n}')
+            self.bernstein_ax.set_xlabel('t')
+            self.bernstein_ax.set_ylabel('B_i,n(t)')
+            self.bernstein_ax.legend()
+            self.bernstein_ax.grid()
+            self.bernstein_fig.canvas.draw_idle()
 
 #Classe geral, cria a janela para criação e trabalho com a curva de bézier.  
 class Canva:
@@ -129,6 +179,9 @@ class Canva:
             Bezier(only).curve()
         self.t = val
         
+        if hasattr(self, 'bernstein_canva'):
+            control_points = PontosArray(self.points).curvab()
+            self.bernstein_canva.update_bernstein(control_points)
         
     def create(self, event):
         #print(event.button)
@@ -191,7 +244,13 @@ class Canva:
                     self.ax.set_ylim([-10,10])
                 CPoligonos(only).cpoligono(self.t)
                 Bezier(only).curve()
-    
+        
+        if self.selected_point:
+            # (Código existente)
+            if hasattr(self, 'bernstein_canva'):
+                control_points = PontosArray(self.points).curvab()
+                self.bernstein_canva.update_bernstein(control_points)
+        
     def menu(self, event):
         if event.key == 'd':
             print('Deletar todos os pontos e linhas da curva')
@@ -246,5 +305,10 @@ class Canva:
             self.openbernstein()
     
     def openbernstein(self):
-        new_canva = CanvaBernstein()
-            
+        n = len(self.points) - 1
+        if n > 0:
+            control_points = PontosArray(self.points).curvab()
+            self.bernstein_canva = CanvaBernstein(n=n, control_points=control_points)
+            self.bernstein_canva.plot_bernstein()
+        else:
+            print("Adicione pelo menos dois pontos de controle para visualizar os polinômios de Bernstein.")
