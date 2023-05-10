@@ -1,0 +1,6 @@
+menu janela bezier
+b - criar um janela com o polinomio de berstein
+d - deleta todos os pontos da janela
+m - remove o último ponto 
+q - fecha a janela 
+

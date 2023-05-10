@@ -300,9 +300,13 @@ class Canva:
                 CPoligonos(only).cpoligono(self.t)
                 Bezier(only).curve()
         
-        elif event.key == 'n':
+        elif event.key == 'b':
             print(event.key)
             self.openbernstein()
+        
+        elif event.key == 'n':
+            print(event.key)
+            self.split_curve(event)
     
     def openbernstein(self):
         n = len(self.points) - 1
@@ -312,3 +316,26 @@ class Canva:
             self.bernstein_canva.plot_bernstein()
         else:
             print("Adicione pelo menos dois pontos de controle para visualizar os polinômios de Bernstein.")
+            
+    def split_curve(self, event):
+        if len(self.points) < 4:
+            print("Não há pontos suficientes para dividir a curva.")
+            return
+        
+        for point in self.points:
+            if abs(event.xdata-point.x) < 0.1 and abs(event.ydata-point.y) < 0.1:
+                index = self.points.index(point)
+                break
+        else:
+            print("Nenhum ponto selecionado.")
+            return
+        left_points = self.points[:index+1]
+        right_points = self.points[index:]
+        left_bezier = Bezier(left_points)
+        right_bezier = Bezier(right_points)
+        plt.cla()
+        self.ax.set_xlim([-10, 10])
+        self.ax.set_ylim([-10, 10])
+        left_bezier.curve()
+        right_bezier.curve()
+
