@@ -318,9 +318,10 @@ class Canva:
             return
         #encontre o ponto de referência clicado pelo usuário
         selected_index = None
-        for point in self.points:
+        for i, point in enumerate(self.points):
             if abs(event.xdata - point.x) < 0.5 and abs(event.ydata - point.y) < 0.5:
-                selected_index = point
+                selected_index = i
+                print(selected_index)
                 break
 
         if selected_index is None:
@@ -328,7 +329,6 @@ class Canva:
             return
         
         #divide os pontos em duas listas com base no ponto de referencia
-        index = self.points.index(selected_index)
         left_points = self.points[:selected_index+1]
         right_points = self.points[selected_index:]
         self.control_points_list.append(self.points)
@@ -341,10 +341,18 @@ class Canva:
         #limpar as linhas existentes
         self.lines.clear()
         #desenhando as linhas com base nos novos pontos
-        for i in range(len(self.points) - 1):
-            line = Line(self.points[i], self.points[i + 1]) 
+        if len(self.points) > 1:
+            line = Line(self.points[-2], self.points[-1])
             self.lines.append(line)
-            self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+        print(len(self.lines))
+        print(self.lines)
+        for line in self.lines:
+            plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+        plt.scatter([pon], [line.point1.y, line.point2.y])
+        #for line in self.lines:
+        #    line = Line(self.points[i], self.points[i + 1]) 
+        #    self.lines.append(line)
+        #    self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
 
         #atualiza a exibição do gráfico
         plt.show()
