@@ -26,7 +26,15 @@ Aqui está uma análise das classes e métodos presentes no código:
 - Execute o arquivo init.py em seu ambiente Python.
 - Utilize o botão direito do mouse para criar pontos de controle.
 - Utilize o botão esquerdo do mouse para mover os pontos de controle.
-- Use as teclas 'd' para apagar todos os pontos de controle e 'm' para apagar o último ponto adicionado.
+- Use as teclas:
+
+  b: Cria uma nova janela com os polinômios de Bernstein associados à curva de Bézier.
+  d: Deleta todos os pontos presentes na janela, reiniciando a curva.
+  m: Remove o último ponto adicionado à curva.
+  q: Fecha a janela, encerrando a execução do programa.
+
+Essas opções permitem uma maior interatividade com a aplicação, facilitando a manipulação dos pontos de controle e oferecendo mais flexibilidade na visualização das curvas de Bézier.
+
 
 # Dependências
 - Python 3
