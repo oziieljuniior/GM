@@ -92,11 +92,9 @@ class CanvaBernstein:
         self.bernstein_fig = plt.figure()
         self.bernstein_ax = self.bernstein_fig.add_subplot(111)
         self.bernstein_ax.set_xlim([0, 1])
-        self.bernstein_ax.set_ylim([-10, 10])
+        self.bernstein_ax.set_ylim([0, 1])
         self.bernstein_ax.set_title("Polinômios de Bernstein")
-        self.bernstein_fig.show()
-    
-    
+        self.bernstein_fig.show() 
         
     def coef_binomial(self, n, k):
         return np.math.factorial(n) // (np.math.factorial(k) * np.math.factorial(n - k))
@@ -105,11 +103,6 @@ class CanvaBernstein:
         return self.coef_binomial(n, i) * t ** i * (1 - t) ** (n - i)
         
     def plot_bernstein(self):
-        self.bernstein_fig = plt.figure()
-        self.bernstein_ax = self.bernstein_fig.add_subplot(111)
-        self.bernstein_ax.set_xlim([0, 1])
-        self.bernstein_ax.set_ylim([0, 1])
-
         t = np.linspace(0, 1, 100)
 
         for i in range(self.n + 1):
