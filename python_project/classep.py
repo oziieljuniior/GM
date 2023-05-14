@@ -92,7 +92,7 @@ class CanvaBernstein:
         self.bernstein_fig = plt.figure()
         self.bernstein_ax = self.bernstein_fig.add_subplot(111)
         self.bernstein_ax.set_xlim([0, 1])
-        self.bernstein_ax.set_ylim([0, 1])
+        self.bernstein_ax.set_ylim([-10, 10])
         self.bernstein_ax.set_title("Polinômios de Bernstein")
         self.bernstein_fig.show() 
         
@@ -106,7 +106,7 @@ class CanvaBernstein:
         t = np.linspace(0, 1, 100)
 
         for i in range(self.n + 1):
-            B = self.polinomio_bernstein(self.n, i, t)
+            B = self.polinomio_bernstein(self.n, i, t)*self.control_points[i][1]
             self.bernstein_ax.plot(t, B, label=f'B_{i},{self.n}(t)')
 
         self.bernstein_ax.set_title(f'Polinômios de Bernstein de Grau {self.n}')
@@ -149,6 +149,8 @@ class Canva:
         self.ax.set_ylim([-10,10])
         self.ax.plot()
         
+        self.control_points_list = []
+
         self.cidpress1 = self.fig.canvas.mpl_connect('button_press_event', self.create)
         self.cidpress2 = self.fig.canvas.mpl_connect("button_release_event", self.on_release)
         self.cidpress3 = self.fig.canvas.mpl_connect("motion_notify_event", self.on_move)
@@ -314,21 +316,59 @@ class Canva:
         if len(self.points) < 4:
             print("Não há pontos suficientes para dividir a curva.")
             return
-        
+        #encontre o ponto de referência clicado pelo usuário
+        selected_index = None
         for point in self.points:
-            if abs(event.xdata-point.x) < 0.1 and abs(event.ydata-point.y) < 0.1:
-                index = self.points.index(point)
+            if abs(event.xdata - point.x) < 0.5 and abs(event.ydata - point.y) < 0.5:
+                selected_index = point
                 break
-        else:
-            print("Nenhum ponto selecionado.")
+
+        if selected_index is None:
+            print("Nenhum ponto selecionado")
             return
-        left_points = self.points[:index+1]
-        right_points = self.points[index:]
-        left_bezier = Bezier(left_points)
-        right_bezier = Bezier(right_points)
+        
+        #divide os pontos em duas listas com base no ponto de referencia
+        index = self.points.index(selected_index)
+        left_points = self.points[:selected_index+1]
+        right_points = self.points[selected_index:]
+        self.control_points_list.append(self.points)
+        self.control_points_list.append(left_points)
+        self.control_points_list.append(right_points)
+        print(self.control_points_list)
         plt.cla()
+        #reinice o poligono de controle com os pontos da parte esquerda da divisão
+        self.points = left_points
+        #limpar as linhas existentes
+        self.lines.clear()
+        #desenhando as linhas com base nos novos pontos
+        for i in range(len(self.points) - 1):
+            line = Line(self.points[i], self.points[i + 1]) 
+            self.lines.append(line)
+            self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+
+        #atualiza a exibição do gráfico
+        plt.show()
+        #cria a curva de bezier usando os pontos da pate esquerda da divisão
+        left_bezier = Bezier(self.points)
+        left_bezier.curve()
+
+        ##reinice o poligono de controle com os pontos da parte direita da divisão
+        self.points = right_points
+        #limpar as linhas existentes
+        self.lines.clear()
+        #desenhando as linhas com base nos novos pontos
+        for i in range(len(self.points) - 1):
+            line = Line(self.points[i], self.points[i + 1]) 
+            self.lines.append(line)
+            self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+
+        #atualiza a exibição do gráfico
+        plt.show()
+        #cria a curva de bezier usando os pontos da pate direita da divisão
+        right_bezier = Bezier(right_points)
+        right_bezier.curve()
         self.ax.set_xlim([-10, 10])
         self.ax.set_ylim([-10, 10])
         left_bezier.curve()
         right_bezier.curve()
-
+        
