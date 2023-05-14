@@ -29,8 +29,11 @@ Aqui está uma análise das classes e métodos presentes no código:
 - Use as teclas:
 
   b: Cria uma nova janela com os polinômios de Bernstein associados à curva de Bézier.
+  
   d: Deleta todos os pontos presentes na janela, reiniciando a curva.
+  
   m: Remove o último ponto adicionado à curva.
+  
   q: Fecha a janela, encerrando a execução do programa.
 
 Essas opções permitem uma maior interatividade com a aplicação, facilitando a manipulação dos pontos de controle e oferecendo mais flexibilidade na visualização das curvas de Bézier.
