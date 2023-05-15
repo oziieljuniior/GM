@@ -166,14 +166,23 @@ class Canva:
         #print("Valor atualizado")
         only = PontosArray(self.points).curvab()
         #print(len(only))
-        if len(only) > 2:
-            plt.cla()
-            self.ax.set_xlim([-10,10])
-            self.ax.set_ylim([-10,10])
-            CPoligonos(only).cpoligono(val)
-            Bezier(only).curve()
-        self.t = val
-        
+        if len(self.control_points_list) > 1:
+            if len(only) > 2:
+                #plt.cla()
+                self.ax.set_xlim([-10,10])
+                self.ax.set_ylim([-10,10])
+                CPoligonos(only).cpoligono(val)
+                Bezier(only).curve()
+            self.t = val
+        else:
+            if len(only) > 2:
+                plt.cla()
+                self.ax.set_xlim([-10,10])
+                self.ax.set_ylim([-10,10])
+                CPoligonos(only).cpoligono(val)
+                Bezier(only).curve()
+            self.t = val
+            
         if hasattr(self, 'bernstein_canva'):
             control_points = PontosArray(self.points).curvab()
             self.bernstein_canva.update_bernstein(control_points)
@@ -348,35 +357,35 @@ class Canva:
         print(self.lines)
         for line in self.lines:
             plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
-        plt.scatter([pon], [line.point1.y, line.point2.y])
-        #for line in self.lines:
-        #    line = Line(self.points[i], self.points[i + 1]) 
-        #    self.lines.append(line)
-        #    self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
-
+        plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'red', s=25)
+        #plt.show
+        if len(self.points) > 2:
+            only = PontosArray(self.points).curvab()
+            CPoligonos(only).cpoligono(self.t)
+            Bezier(only).curve()
+        
         #atualiza a exibição do gráfico
         plt.show()
-        #cria a curva de bezier usando os pontos da pate esquerda da divisão
-        left_bezier = Bezier(self.points)
-        left_bezier.curve()
-
+        
         ##reinice o poligono de controle com os pontos da parte direita da divisão
         self.points = right_points
         #limpar as linhas existentes
         self.lines.clear()
         #desenhando as linhas com base nos novos pontos
-        for i in range(len(self.points) - 1):
-            line = Line(self.points[i], self.points[i + 1]) 
+        if len(self.points) > 1:
+            line = Line(self.points[-2], self.points[-1])
             self.lines.append(line)
-            self.ax.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
-
+        print(len(self.lines))
+        print(self.lines)
+        for line in self.lines:
+            plt.plot([line.point1.x, line.point2.x], [line.point1.y, line.point2.y])
+        plt.scatter([point.x for point in self.points], [point.y for point in self.points], color = 'red', s=25)
+        #plt.show
+        if len(self.points) > 2:
+            only = PontosArray(self.points).curvab()
+            CPoligonos(only).cpoligono(self.t)
+            Bezier(only).curve()
+        
         #atualiza a exibição do gráfico
         plt.show()
-        #cria a curva de bezier usando os pontos da pate direita da divisão
-        right_bezier = Bezier(right_points)
-        right_bezier.curve()
-        self.ax.set_xlim([-10, 10])
-        self.ax.set_ylim([-10, 10])
-        left_bezier.curve()
-        right_bezier.curve()
         
