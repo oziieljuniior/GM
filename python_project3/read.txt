@@ -1,0 +1,22 @@
+A tesselação centroidal geodésica é uma técnica utilizada na geração de malhas (tesselação) de superfícies que visa otimizar a distribuição dos pontos da malha de maneira eficiente. Vamos quebrar essa explicação em partes:
+
+1.Tesselação ou Malhagem:
+        Tesselação é o processo de dividir uma superfície contínua em elementos finitos, como triângulos em gráficos 3D.
+        Em gráficos computacionais e visualização 3D, a tesselação é comumente usada para representar superfícies complexas por meio de polígonos mais simples.
+
+2.Centroidal Geodésico:
+        "Centroidal" refere-se a centróides, que são pontos que representam o centro de massa de uma região.
+        "Geodésico" refere-se a caminhos mais curtos ou linhas de distância mínima em uma superfície.
+
+3.Tesselação Centroidal Geodésica:
+        A tesselação centroidal geodésica é uma abordagem que visa colocar pontos (vértices) em uma malha de forma que esses pontos estejam distribuídos de maneira mais uniforme possível e, ao mesmo tempo, respeitando as características geométricas da superfície.
+        A geodésica garante que as linhas que conectam esses pontos sigam o caminho mais curto na superfície, o que é desejável para evitar triângulos excessivamente alongados ou distorcidos.
+
+4.Aplicações e Vantagens:
+        A tesselação centroidal geodésica é frequentemente usada em gráficos computacionais, visualização científica e simulações físicas.
+        Vantagens incluem uma melhor qualidade visual da malha, menor número de triângulos necessários para representar uma superfície e um melhor desempenho em algoritmos que dependem da malha.
+
+5.Algoritmos:
+        Existem diferentes algoritmos para realizar a tesselação centroidal geodésica. Eles geralmente envolvem iterações para otimizar a posição dos pontos na malha com base em critérios específicos, como a distribuição uniforme ou a minimização da energia.
+
+Em resumo, a tesselação centroidal geodésica é uma técnica avançada para gerar malhas que buscam equilibrar eficiência computacional e qualidade visual, resultando em malhas bem distribuídas e visualmente agradáveis para a representação de superfícies complexas em ambientes 3D.

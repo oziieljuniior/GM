@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from stl import mesh
+import numpy as np
 
 # Carregar o novo arquivo STL
 stl_file_path = '/home/darkcover/Documentos/GitHub/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl'
@@ -10,8 +11,12 @@ mesh_data = mesh.Mesh.from_file(stl_file_path)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-# Adicionar as faces da malha
-mesh_faces = Poly3DCollection(mesh_data.vectors)
+# Calcular as normais das faces
+normals = np.cross(mesh_data.vectors[:, 1, :] - mesh_data.vectors[:, 0, :], mesh_data.vectors[:, 2, :] - mesh_data.vectors[:, 0, :])
+normals /= np.linalg.norm(normals, axis=1)[:, None]
+
+# Adicionar as faces da malha com iluminação
+mesh_faces = Poly3DCollection(mesh_data.vectors, facecolors=plt.cm.viridis(normals[:, 2]))
 ax.add_collection3d(mesh_faces)
 
 # Ajustar os limites do eixo
