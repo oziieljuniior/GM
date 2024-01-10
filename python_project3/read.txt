@@ -1,0 +1,1 @@
+O formato STL (Standard Triangle Language) é comumente usado para representar modelos tridimensionais de objetos em software de design assistido por computador (CAD). Existem várias bibliotecas em Python que podem ajudá-lo a visualizar esses modelos. Uma das bibliotecas mais populares para isso é a mayavi.
