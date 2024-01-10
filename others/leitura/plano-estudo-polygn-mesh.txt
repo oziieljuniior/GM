@@ -1,0 +1,34 @@
+Semana 1-2: Introdução ao Processamento de Malhas Poligonais
+Leia o Capítulo 1 do livro para entender os conceitos gerais de representações de superfície e as vantagens das malhas poligonais.
+Pesquise sobre os diferentes tipos de tecnologias de aquisição 3D mencionados no texto, como tomografia computadorizada, ressonância magnética, digitalização a laser 3D, etc.
+Explore exemplos de aplicações práticas em diferentes áreas, como neurociência, engenharia mecânica e entretenimento.
+
+Semana 3-4: Estruturas de Dados e Geometria Diferencial
+Estude o Capítulo 2 do livro para compreender as eficientes estruturas de dados para a implementação de malhas poligonais.
+Aprofunde-se no Capítulo 3, que apresenta os conceitos fundamentais de geometria diferencial e suas derivações discretas.
+Para reforçar o entendimento, pesquise sobre geometria diferencial e suas aplicações em áreas como gráficos computacionais e modelagem.
+
+Semana 5-6: Suavização e Parametrização de Superfície
+Explore o Capítulo 4, que aborda a suavização de malhas para a redução de ruído em superfícies digitalizadas.
+Estude o Capítulo 5 para aprender sobre diferentes métodos de parametrização de superfície e sua importância em várias tarefas de processamento geométrico.
+Pesquise artigos acadêmicos e recursos online sobre técnicas avançadas de suavização e parametrização.
+
+Semana 7-8: Remalhagem e Simplificação de Malhas
+Leia o Capítulo 6 para entender como otimizar a forma de elementos de malha, o que é crucial para simulações numéricas e processamento posterior.
+Estude o Capítulo 7, que trata de técnicas de simplificação e aproximação de malhas.
+Pesquise sobre casos de uso reais onde a remalhagem e a simplificação de malhas são aplicadas, como em animações por computador e simulações físicas.
+
+Semana 9-10: Tratamento de Dados e Aplicações Práticas
+Explore o Capítulo 8 para aprender sobre diferentes fontes de dados de entrada e como lidar com degenerações geométricas e topológicas.
+Leia o Capítulo 9 para entender as técnicas de deformação de forma e interação.
+Pesquise sobre exemplos de projetos e aplicações no mundo real que envolvem o processamento de malhas poligonais.
+
+Semana 11-12: Algoritmos e Implementação Prática
+Revise os capítulos anteriores para consolidar o conhecimento adquirido.
+Realize exercícios práticos de implementação de algoritmos de processamento de malhas, como suavização, simplificação e parametrização.
+Participe de fóruns e comunidades online relacionados a processamento geométrico para compartilhar seu progresso e aprender com outros entusiastas.
+Leituras Complementares (opcional):
+
+"Computer Graphics: Principles and Practice" por James D. Foley, Andries van Dam, Steven K. Feiner e John F. Hughes.
+Artigos acadêmicos relevantes sobre tópicos específicos abordados no livro, encontrados em bases de dados como IEEE Xplore e ACM Digital Library.
+"Digital Geometry Processing: Towards the Integration of CAD and Artwork" por Oliver Deussen, Bernd Hahmann e Michael A. Kobbelt.
