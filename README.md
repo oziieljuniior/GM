@@ -41,5 +41,4 @@ Essas opções permitem uma maior interatividade com a aplicação, facilitando 
 
 # Dependências
 - Python 3
-- Matplotlib
-- NumPy
+-- Ler requetimentos.txt
