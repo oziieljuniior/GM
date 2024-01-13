@@ -3,7 +3,8 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from stl import mesh
 
 # Carregar o novo arquivo STL
-stl_file_path = '/home/darkcover/Documentos/GitHub/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl'
+#/home/darkcover/Documentos/GitHub/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl
+stl_file_path = '/home/oziel/Documentos/Mestrado/UFAM/Verao/Modelagem_2023/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl'
 mesh_data = mesh.Mesh.from_file(stl_file_path)
 
 # Criar a figura 3D com a malha completa

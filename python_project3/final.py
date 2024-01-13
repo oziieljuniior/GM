@@ -14,7 +14,8 @@ def geodesic_centroid(vertices):
     return centroid
 
 # Carregar a malha STL
-stl_file_path = '/home/darkcover/Documentos/GitHub/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl'
+#/home/darkcover/Documentos/GitHub/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl
+stl_file_path = '/home/oziel/Documentos/Mestrado/UFAM/Verao/Modelagem_2023/GM/python_project3/data/2/low-poly-moai20180403-9092-1jsjdxy/RubixDesign/low-poly-moai/moai.stl'
 mesh_data = mesh.Mesh.from_file(stl_file_path)
 
 # Calcular as normais das faces
@@ -34,15 +35,23 @@ segmented_vertices = np.copy(mesh_data.vectors)
 # Percorrer todos os vértices da malha:
 for i, vertex in enumerate(mesh_data.vectors):
     # Encontrar os vizinhos do vértice
-    neighbors = tree.query_ball_point(vertex[0], radius)
+    neighbors = tree.query_ball_point(vertex, radius)
+    
+    # Filtrar os vizinhos para garantir que estejam dentro dos limites da matriz de vértices
+    valid_neighbors = [n for n in neighbors if isinstance(n, int) and n < len(mesh_data.vectors)]
     
     # Se o vértice tiver mais de um vizinho, atualizá-lo para a média dos vértices vizinhos
-    if len(neighbors) > 1:
-        segmented_vertices[i] = np.mean(mesh_data.vectors[neighbors], axis=0)
+    if len(valid_neighbors) > 1:
+        segmented_vertices[i] = np.mean(mesh_data.vectors[valid_neighbors], axis=0)
 
 # Salvar a malha segmentada
 mesh_data.vectors = segmented_vertices
 mesh_data.save("moai_segmented.stl")
+
+# Salvar a malha segmentada
+mesh_data.vectors = segmented_vertices
+mesh_data.save("moai_segmented.stl")
+
 
 # Visualizar a malha segmentada
 fig = plt.figure()
